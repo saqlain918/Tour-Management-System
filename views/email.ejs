@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Email Validation</title>
+    <link rel="stylesheet" href="email.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Enter Email to Validate</h2>
+      <form
+        name="form1"
+        action="http://localhost:3000/verify-email"
+        method="POST"
+      >
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required />
+        <input type="submit" value="Validate" />
+      </form>
+    </div>
+  </body>
+</html>
