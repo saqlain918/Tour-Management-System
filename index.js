@@ -22,6 +22,11 @@ app.get("/signin", (req, res) => {
   // Render the signin.ejs file
   res.render("signin");
 });
+// Define route for "/signup"
+app.get("/signup", (req, res) => {
+  // Render the signin.ejs file
+  res.render("signup");
+});
 
 // Start the server
 app.listen(port, () => {
