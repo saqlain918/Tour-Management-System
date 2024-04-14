@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forgot Password</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('forget-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      background-color: rgb(146, 197, 255);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .forgot-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .forgot-form h2 {
+      margin-bottom: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+      width: 100%;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input[type="email"] {
+      width: calc(100% - 10px);
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #074e99;
+      color: white;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      input[type="email"] {
+        width: calc(100% - 8px);
+        padding: 4px;
+      }
+
+      button {
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form action="/forget" method="post" class="forgot-form">
+      <h2>Forgot Your Password?</h2>
+      <p>Enter your email address and we'll send you a link to reset your password.</p>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <button type="submit">Reset Password</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,118 @@
+/* For screens smaller than 768px */
+@media screen and (max-width: 768px) {
+    .left-image {
+        width: 100%; /* Adjust width for full width */
+    }
+
+    .form-container {
+        right: 0; /* Adjust position to the right */
+        max-width: 80%; /* Adjusted max-width for smaller screens */
+        padding: 10px; /* Adjusted padding for smaller screens */
+    }
+
+    /* Add more specific styles as needed */
+}
+
+/* For screens between 769px and 1024px */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .form-container {
+        max-width: 400px; /* Adjusted max-width for medium screens */
+    }
+}
+
+/* For screens larger than 1025px */
+@media screen and (min-width: 1025px) {
+    .form-container {
+        right: 15%; /* Adjusted position for larger screens */
+        max-width: 500px; /* Adjusted max-width for larger screens */
+        padding: 30px; /* Adjusted padding for larger screens */
+    }
+}
+
+/* Form container */
+:root {
+    --mikado-yellow: #ffcc00; /* Define the mikado yellow color */
+    --viridian-green: #40826d; /* Define the viridian green color */
+    --light-blue: #add8e6; /* Define the light gray color */
+}
+
+.form-container {
+    position: absolute;
+    top: 50%;
+    right: 7%; /* Adjust left position as needed */
+    transform: translateY(-50%);
+    max-width: 300px;
+    padding: 20px;
+    background-color: var(--light-blue);
+    border-radius: 20px;
+    border: 2px solid black;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); 
+}
+
+/* Background images */
+.left-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 60%; /* Adjust width as needed */
+    height: 100%;
+    background-image: url('images/trolley-tours-of-key-west-480x270.jpg');
+    background-size: cover;
+    background-position: left center; /* Adjust background position as needed */
+    z-index: -1;
+}
+
+.left-image h2 {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white; /* Adjust color as needed */
+    text-align: center; /* Center align the text */
+    z-index: 1; /* Ensure text is above the image */
+    font-weight: bold; /* Add font weight */
+    font-size: 50px; /* Add font size */
+    font-family: Arial, sans-serif;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add text shadow */
+}
+/* Form input fields */
+.form-input, .form-select {
+    width: calc(100% - 20px); /* Adjusted width for better layout */
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 2px solid var(--silver-chalice);
+    border-radius: var(--radius-6);
+    font-size: var(--fs-6);
+}
+
+/* Form submit button */
+.form-submit {
+    width: calc(100% - 2px); /* Adjusted width for better layout */
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-6);
+    background-color: var(--viridian-green);
+    color: var(--white-1);
+    font-size: var(--fs-6);
+    font-weight: var(--fw-700);
+    cursor: pointer;
+    font-weight: bold;
+    font-size: larger;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+/* Form submit button on hover */
+.form-submit:hover {
+    background-color: var(--mikado-yellow);
+    color: var(--oxford-blue);
+}
+
+/*-----------------------------------*/
+/* Page Background Color */
+/*-----------------------------------*/
+
+/* Yellow background for the page */
+body {
+    background-color: #ffcc00; /* Change the body background color here */
+    margin: 0;
+}
