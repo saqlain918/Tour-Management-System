@@ -50,7 +50,7 @@ app.post('/signup', (req, res) => {
   // Send response
   res.send("Form data received successfully!");
 });
-// Start the server
+// Start the server !
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
