@@ -13,14 +13,15 @@
     <!--=============== CSS ===============-->
     <link rel="stylesheet" href="signin.css" />
 
-    <title>Beautiful glass login form - Bedimcode</title>
+    <title>sign-in</title>
   </head>
+
   <body>
     <div class="container">
       <div class="login__content">
         <img src="img/bg-login.png" alt="login image" class="login__img" />
 
-        <form action="" class="login__form">
+        <form action="/signin" method="POST" class="login__form">
           <div>
             <h1 class="login__title"><span>Tourism</span></h1>
             <p class="login__description">Welcome! Please login to continue.</p>
@@ -32,6 +33,7 @@
                 <label for="input-email" class="login__label">Email</label>
                 <input
                   type="email"
+                  name="email"
                   placeholder="Enter your email address"
                   required
                   class="login__input"
@@ -45,6 +47,7 @@
                 <div class="login__box">
                   <input
                     type="password"
+                    name="password"
                     placeholder="Enter your password"
                     required
                     class="login__input"
