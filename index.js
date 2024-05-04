@@ -67,6 +67,32 @@ app.get("/signup", (req, res) => {
   res.render("signup");
 });
 
+// Define route to handle form submission for sign-up
+app.post("/signup", async (req, res) => {
+  const { first_name, last_name, email, password, gender } = req.body;
+
+  try {
+    // Create a new user instance
+    const newUser = new User({
+      first_name,
+      last_name,
+      email,
+      password,
+      gender,
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    console.log("User saved to database:", newUser);
+
+    res.send("Form data received and stored successfully!");
+  } catch (error) {
+    console.error("Error saving user data:", error);
+    res.status(500).send("Error storing user data");
+  }
+});
+
 // Define route for "/forget"
 app.get("/forget", (req, res) => {
   res.render("forget");
