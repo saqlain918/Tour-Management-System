@@ -9,14 +9,11 @@
   <body>
     <div class="container">
       <h2>Enter Email to Validate</h2>
-      <form
-        name="form1"
-        action="http://localhost:3000/verify-email"
-        method="POST"
-      >
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
-        <input type="submit" value="Validate" />
+      <!-- Add this form to your HTML -->
+      <form action="/verify-otp" method="POST">
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" required />
+        <input type="submit" value="Submit" />
       </form>
     </div>
   </body>
