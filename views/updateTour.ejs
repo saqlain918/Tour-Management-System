@@ -153,5 +153,45 @@
       </div>
       <% }); %>
     </div>
+
+    <script>
+      function updateTour(tourId, currentName, currentPrice) {
+        // Prompt the user for the new tour name and price
+        const newName = prompt("Enter the new tour name:", currentName);
+        const newPrice = prompt("Enter the new price:", currentPrice);
+
+        if (newName && newPrice) {
+          // Create a hidden form element
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = "/updateTour1"; // Endpoint to handle updating the tour
+
+          // Create hidden input fields to hold the tour ID, new name, and new price
+          const tourIdInput = document.createElement("input");
+          tourIdInput.type = "hidden";
+          tourIdInput.name = "tourId";
+          tourIdInput.value = tourId;
+          form.appendChild(tourIdInput);
+
+          const newNameInput = document.createElement("input");
+          newNameInput.type = "hidden";
+          newNameInput.name = "newName";
+          newNameInput.value = newName;
+          form.appendChild(newNameInput);
+
+          const newPriceInput = document.createElement("input");
+          newPriceInput.type = "hidden";
+          newPriceInput.name = "newPrice";
+          newPriceInput.value = newPrice;
+          form.appendChild(newPriceInput);
+
+          // Append the form to the document body and submit it
+          document.body.appendChild(form);
+          form.submit();
+        } else {
+          alert("Tour name and price cannot be empty.");
+        }
+      }
+    </script>
   </body>
 </html>
