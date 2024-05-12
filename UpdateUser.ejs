@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tours</title>
+    <link rel="stylesheet" href="signin.css" />
+    <!-- Link your custom CSS file -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #dcdde1;
+      }
+
+      /* Heading styles */
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #343a40;
+      }
+
+      /* Form styles */
+      form {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      button {
+        padding: 10px;
+        margin: 0 5px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+      }
+
+      input[type="text"] {
+        width: 300px;
+      }
+
+      input[type="number"] {
+        width: 100px;
+      }
+
+      button {
+        background-color: #273c75;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #192a56;
+      }
+
+      /* Tour card styles */
+      .tour-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .tour-card {
+        display: flex; /* Add flex display */
+        flex-direction: column; /* Align items vertically */
+        align-items: center; /* Center items horizontally */
+        width: 300px;
+        margin: 20px;
+        background-color: #dff9fb;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .book-now-button {
+        background-color: red;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: auto; /* Push the button to the bottom of the container */
+      }
+
+      .tour-card img {
+        width: 100%;
+        height: 200px; /* Set your desired fixed height */
+        object-fit: contain; /* Maintain aspect ratio and cover container */
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+      }
+
+      .tour-info {
+        padding: 20px;
+      }
+
+      .tour-info h2 {
+        margin-bottom: 10px;
+        color: #343a40;
+      }
+
+      .tour-info p {
+        color: #6c757d;
+        margin-bottom: 10px;
+      }
+
+      /* Pagination styles */
+      .pagination {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .pagination a {
+        padding: 10px 15px;
+        margin: 0 5px;
+        background-color: #273c75;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+
+      .pagination a:hover {
+        background-color: #192a56;
+      }
+
+      .pagination span {
+        padding: 10px 15px;
+        margin: 0 5px;
+        background-color: #6c757d;
+        color: #fff;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Update Users</h1>
+
+    <div class="tour-cards">
+      <% tours.forEach(tour => { %>
+      <div class="tour-card">
+        <img src="/uploads/<%= tour.pic %>" alt="<%= tour.pic %>" />
+        <div class="tour-info">
+          <h2><%= tour.first_name %><%= tour.last_name %></h2>
+          <p>Email: <%= tour.email %></p>
+        </div>
+        <button
+          class="book-now-button"
+          type="button"
+          onclick="updateUser('<%= tour._id %>', '<%= tour.first_name %>', '<%= tour.last_name %>')"
+        >
+          Update
+        </button>
+      </div>
+      <% }); %>
+    </div>
+    <script>
+      function updateUser(userId, currentFirstName, currentLastName) {
+        const newFirstName = prompt(
+          "Enter the new first name:",
+          currentFirstName
+        );
+        const newLastName = prompt("Enter the new last name:", currentLastName);
+
+        if (newFirstName && newLastName) {
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = "/UpdateUser1";
+
+          const userIdInput = document.createElement("input");
+          userIdInput.type = "hidden";
+          userIdInput.name = "tourId";
+          userIdInput.value = userId;
+          form.appendChild(userIdInput);
+
+          const newFirstNameInput = document.createElement("input");
+          newFirstNameInput.type = "hidden";
+          newFirstNameInput.name = "newName";
+          newFirstNameInput.value = newFirstName;
+          form.appendChild(newFirstNameInput);
+
+          const newLastNameInput = document.createElement("input");
+          newLastNameInput.type = "hidden";
+          newLastNameInput.name = "newLastName";
+          newLastNameInput.value = newLastName;
+          form.appendChild(newLastNameInput);
+
+          document.body.appendChild(form);
+          form.submit();
+        } else {
+          alert("First name and last name cannot be empty.");
+        }
+      }
+    </script>
+  </body>
+</html>
