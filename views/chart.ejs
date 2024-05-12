@@ -36,5 +36,53 @@
       <!-- Bar chart -->
       <canvas id="tourChart" width="400" height="300"></canvas>
     </div>
+
+    <script>
+      // Tour data passed from server-side rendering
+      const tourData = <%- JSON.stringify(tourData) %>;
+
+      // Extract country names and tour counts from tourData
+      const countries = tourData.map(tour => tour._id);
+      const tourCounts = tourData.map(tour => tour.tourCount);
+
+      // Create a bar chart
+      const ctx = document.getElementById('tourChart').getContext('2d');
+      const tourChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+              labels: countries,
+              datasets: [{
+                  label: 'Tour Count',
+                  data: tourCounts,
+                  backgroundColor: 'rgba(5, 196, 107)', // Blue color with some transparency
+                  borderColor: 'rgba(5, 196, 107)', // Solid blue border
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      grid: {
+                          color: 'rgba(0, 0, 0, 0.1)' // Light grey grid lines
+                      },
+                      ticks: {
+                          stepSize: 1 // Ensure y-axis ticks are integers
+                      }
+                  },
+                  x: {
+                      grid: {
+                          display: false // Hide x-axis grid lines
+                      }
+                  }
+              },
+              plugins: {
+                  legend: {
+                      display: false // Hide legend
+                  }
+              }
+          }
+      });
+    </script>
   </body>
 </html>
