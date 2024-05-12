@@ -154,5 +154,43 @@
       </div>
       <% }); %>
     </div>
+    <script>
+      function updateUser(userId, currentFirstName, currentLastName) {
+        const newFirstName = prompt(
+          "Enter the new first name:",
+          currentFirstName
+        );
+        const newLastName = prompt("Enter the new last name:", currentLastName);
+
+        if (newFirstName && newLastName) {
+          const form = document.createElement("form");
+          form.method = "POST";
+          form.action = "/UpdateUser1";
+
+          const userIdInput = document.createElement("input");
+          userIdInput.type = "hidden";
+          userIdInput.name = "tourId";
+          userIdInput.value = userId;
+          form.appendChild(userIdInput);
+
+          const newFirstNameInput = document.createElement("input");
+          newFirstNameInput.type = "hidden";
+          newFirstNameInput.name = "newName";
+          newFirstNameInput.value = newFirstName;
+          form.appendChild(newFirstNameInput);
+
+          const newLastNameInput = document.createElement("input");
+          newLastNameInput.type = "hidden";
+          newLastNameInput.name = "newLastName";
+          newLastNameInput.value = newLastName;
+          form.appendChild(newLastNameInput);
+
+          document.body.appendChild(form);
+          form.submit();
+        } else {
+          alert("First name and last name cannot be empty.");
+        }
+      }
+    </script>
   </body>
 </html>
