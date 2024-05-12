@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tours</title>
+    <link rel="stylesheet" href="signin.css" />
+    <!-- Link your custom CSS file -->
+  </head>
+  <body>
+    <h1>Update Users</h1>
+
+    <div class="tour-cards">
+      <% tours.forEach(tour => { %>
+      <div class="tour-card">
+        <img src="/uploads/<%= tour.pic %>" alt="<%= tour.pic %>" />
+        <div class="tour-info">
+          <h2><%= tour.first_name %><%= tour.last_name %></h2>
+          <p>Email: <%= tour.email %></p>
+        </div>
+        <button
+          class="book-now-button"
+          type="button"
+          onclick="updateUser('<%= tour._id %>', '<%= tour.first_name %>', '<%= tour.last_name %>')"
+        >
+          Update
+        </button>
+      </div>
+      <% }); %>
+    </div>
+  </body>
+</html>
