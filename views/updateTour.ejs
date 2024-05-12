@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tours</title>
+    <link rel="stylesheet" href="signin.css" />
+    <!-- Link your custom CSS file -->
+  </head>
+  <body>
+    <h1>Update Tour</h1>
+
+    <div class="tour-cards">
+      <% tours.forEach(tour => { %>
+      <div class="tour-card">
+        <img src="/uploads/<%= tour.image %>" alt="<%= tour.tour_name %>" />
+        <div class="tour-info">
+          <h2><%= tour.tour_name %></h2>
+          <p>Location: <%= tour.city %>, <%= tour.country %></p>
+          <p>Price: $<%= tour.price %></p>
+          <!-- Use a form to submit the tour ID to the backend -->
+          <button
+            class="book-now-button"
+            type="button"
+            onclick="updateTour('<%= tour._id %>', '<%= tour.tour_name %>', <%= tour.price %>)"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </body>
+</html>
