@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const multer = require("multer");
+const bcrypt = require("bcrypt");
+
+//image upload
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/"); // Destination directory where uploaded files will be stored
@@ -37,7 +40,16 @@ db.once("open", () => {
   console.log("Connected to MongoDB");
 });
 
-// Define user schema
+// Middleware to check user role
+const isAdmin = (req, res, next) => {
+  console.log(req.user.role);
+  if (req.isAuthenticated() && req.user.role === "Admin") {
+    // If user is authenticated and has admin role, proceed to next middleware
+    return next();
+  } else if (req.user.role === "customer") {
+    res.redirect("/index1");
+  }
+};
 const userSchema = new mongoose.Schema({
   first_name: String,
   last_name: String,
@@ -45,6 +57,7 @@ const userSchema = new mongoose.Schema({
   password: String,
   gender: String,
   pic: String,
+  role: { type: String, default: "customer" }, // Default role is customer
   bookedTours: [{ type: mongoose.Schema.Types.ObjectId, ref: "Tour" }], // Array to store IDs of booked tours
 });
 
@@ -113,10 +126,19 @@ app.get("/touradd", (req, res) => {
 app.post(
   "/signin",
   passport.authenticate("local", {
-    successRedirect: "/index1",
     failureRedirect: "/signin",
     failureFlash: true,
-  })
+  }),
+  (req, res) => {
+    // Check the role of the authenticated user
+    if (req.user.role === "Admin") {
+      // If role is admin, redirect to admin dashboard
+      res.redirect("/admin");
+    } else {
+      // If role is customer, redirect to index1
+      res.redirect("/index1");
+    }
+  }
 );
 
 // Define route for "/index1"
@@ -212,6 +234,10 @@ app.post("/verify-otp", async (req, res) => {
 // Define route for "/forget"
 app.get("/forget", (req, res) => {
   res.render("forget");
+});
+
+app.get("/admin", isAdmin, (req, res) => {
+  res.render("admin");
 });
 
 // POST endpoint for handling email verification
@@ -325,6 +351,7 @@ const Tour = mongoose.model("Tour", tourSchema);
 // Define route to handle form submission for adding tour
 app.post(
   "/addtour",
+  isAdmin,
   upload.fields([{ name: "image1", maxCount: 1 }]),
   async (req, res) => {
     const { tour_name, city, country, price } = req.body;
@@ -469,7 +496,7 @@ app.get("/search", async (req, res) => {
 });
 
 // Define route to render the chart
-app.get("/chart", async (req, res) => {
+app.get("/chart", isAdmin, async (req, res) => {
   try {
     // Aggregate tour data by country
     const tourData = await Tour.aggregate([
@@ -490,7 +517,7 @@ app.get("/chart", async (req, res) => {
 });
 
 // Define route to fetch all tours
-app.get("/deleteTour", async (req, res) => {
+app.get("/deleteTour", isAdmin, async (req, res) => {
   try {
     // Construct the query to search by tour name and filter by maximum price
 
@@ -505,7 +532,7 @@ app.get("/deleteTour", async (req, res) => {
 });
 
 // Define route to fetch all tours
-app.get("/updateTour", async (req, res) => {
+app.get("/updateTour", isAdmin, async (req, res) => {
   try {
     // Construct the query to search by tour name and filter by maximum price
 
@@ -520,7 +547,7 @@ app.get("/updateTour", async (req, res) => {
 });
 
 // Define route to fetch all tours
-app.get("/UpdateUser", async (req, res) => {
+app.get("/UpdateUser", isAdmin, async (req, res) => {
   try {
     const tours = await User.find();
 
@@ -594,7 +621,7 @@ app.post("/updateTour1", async (req, res) => {
   }
 });
 
-app.get("/viewUser", async (req, res) => {
+app.get("/viewUser", isAdmin, async (req, res) => {
   try {
     // Construct the query to search by tour name and filter by maximum price
 
@@ -608,7 +635,7 @@ app.get("/viewUser", async (req, res) => {
   }
 });
 // Define route to handle deleting a tour
-app.post("/deleteTours", async (req, res) => {
+app.post("/deleteTours", isAdmin, async (req, res) => {
   const { tourId } = req.body;
 
   try {
@@ -644,7 +671,7 @@ app.post("/deleteUser1", async (req, res) => {
   }
 });
 
-app.get("/deleteUser", async (req, res) => {
+app.get("/deleteUser", isAdmin, async (req, res) => {
   try {
     // Construct the query to search by tour name and filter by maximum price
 
@@ -673,13 +700,13 @@ app.post("/api/feedback", isAuthenticated, (req, res) => {
   res.redirect("/index1");
 });
 
-// Function to send feedback email to the signed-in user
+/// Function to send feedback email to the signed-in user
 function sendFeedbackEmail(feedbackData, userEmail) {
   const mailOptions = {
     from: userEmail, // Sender's email address
     to: "f219255@cfd.nu.edu.pk", // Send feedback email to the signed-in user
     subject: "Feedback Received",
-    text: `your feedback:${feedbackData}`,
+    text: `Feedback received from ${userEmail}:\n\n${feedbackData.email}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
@@ -690,6 +717,56 @@ function sendFeedbackEmail(feedbackData, userEmail) {
     }
   });
 }
+
+// Contact form endpoint
+app.post("/send-email", (req, res) => {
+  console.log("hello");
+  const { name, email, message } = req.body;
+
+  // Setup email data
+  let mailOptions = {
+    from: email, // Sender's email address
+    to: "f219255@cfd.nu.edu.pk", // Receiver's email address
+    subject: "Contact Form Submission",
+    text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+    } else {
+      console.log("Feedback email sent:", info.response);
+    }
+  });
+  res.redirect("/index1");
+});
+
+app.post("/reset", async (req, res) => {
+  const { email, password } = req.body;
+  console.log(req.body);
+  try {
+    // Find the user by reset token and check if it's valid
+    const user = await User.findOne({
+      email,
+    });
+
+    if (!user) {
+      return res.status(400).send("Invalid or expired reset token");
+    }
+
+    // Hash the new password
+
+    // Update the user's password and clear the reset token fields
+    user.password = pas;
+
+    await user.save();
+
+    res.render("signin"); // Provide default value for page
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).send("Error resetting password");
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
